@@ -8,13 +8,13 @@ public class Continent
 {
     private Tilemap map;
     private Vector2Int position;
-
     private Island[] islands;
     private readonly int amountOfIslands;
 
     private readonly double radious;
 
     private TileType[] tileTypes;
+    
 
     public Continent(Tilemap map, Vector2Int pos, int minIslands, int maxIslands, double radious, TileType[] tileTypes) {
         this.map = map;
@@ -67,7 +67,7 @@ public class Continent
                     finalHeight *= weightedValues[i];
                 }
 
-                //finalHeight *= 10;
+                finalHeight *= 10;
 
                 Debug.Log(finalHeight);
 
