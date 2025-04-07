@@ -9,8 +9,8 @@ public class Island
     public Island(Vector2Int pos) {
         position = pos;
     }
-    public double getWave(double x) {
-        return Mathf.Sin((float) x);
+    public float getWave(float x) {
+        return Mathf.Sin((float) (x * 0.1f))*0.5f + 0.5f;
     }
 
     public Vector2Int getPos() {

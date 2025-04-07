@@ -11,12 +11,12 @@ public class Continent
     private Island[] islands;
     private readonly int amountOfIslands;
 
-    private readonly double radious;
+    private readonly float radious;
 
     private readonly TileType[] tileTypes;
     
 
-    public Continent(Tilemap map, Vector2Int pos, int minIslands, int maxIslands, double radious, TileType[] tileTypes) {
+    public Continent(Tilemap map, Vector2Int pos, int minIslands, int maxIslands, float radious, TileType[] tileTypes) {
         this.map = map;
         this.radious = radious;
         this.tileTypes = tileTypes;
@@ -46,12 +46,12 @@ public class Continent
                 Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
 
                 if(Vector2.Distance(currentTile, position) < radious) {
-                    double[] distances = GetAllDistances(currentTile);
-                    double[] values = GetAllWaveValues(distances);
+                    float[] distances = GetAllDistances(currentTile);
+                    float[] values = GetAllWaveValues(distances);
 
-                    double[] weightedValues = GetWeightedValues(values, distances);
+                    float[] weightedValues = GetWeightedValues(values, distances);
 
-                    double finalHeight = GetProduct(weightedValues) * 10;
+                    float finalHeight = GetProduct(weightedValues);
 
                     Debug.Log(finalHeight);
 
@@ -61,18 +61,19 @@ public class Continent
         }
     }
 
-    private double[] GetAllDistances(Vector2Int currentTile) {
-        double[] distances = new double[amountOfIslands];
+    private float[] GetAllDistances(Vector2Int currentTile) {
+        float[] distances = new float[amountOfIslands];
 
         for(int distanceIndex = 0; distanceIndex < amountOfIslands; distanceIndex++) {
-            distances[distanceIndex] = Vector2.Distance(currentTile, islands[distanceIndex].getPos());
+            float distance = Vector2.Distance(currentTile, islands[distanceIndex].getPos());
+            distances[distanceIndex] = distance / (radious * 2);
         }
 
         return distances;
     }
 
-    private double[] GetAllWaveValues(double[] distances) {
-        double[] values = new double[amountOfIslands];
+    private float[] GetAllWaveValues(float[] distances) {
+        float[] values = new float[amountOfIslands];
 
         for(int valueIndex = 0; valueIndex < amountOfIslands; valueIndex++) {
             values[valueIndex] = islands[valueIndex].getWave(distances[valueIndex]);
@@ -81,18 +82,18 @@ public class Continent
         return values;
     }
 
-    private double[] GetWeightedValues(double[] values, double[] distances) {
-        double[] weightedValues = new double[amountOfIslands];
+    private float[] GetWeightedValues(float[] values, float[] distances) {
+        float[] weightedValues = new float[amountOfIslands];
 
         for(int i = 0; i < amountOfIslands; i++) {
-            weightedValues[i] = values[i] / Math.Min(1, distances[i]);
+            weightedValues[i] = values[i] / Math.Max(1, distances[i]);
         }
 
         return weightedValues;
     }
 
-    private double GetProduct(double[] weightedValues) {
-        double finalProduct = 1;
+    private float GetProduct(float[] weightedValues) {
+        float finalProduct = 1;
 
         for(int i = 0; i < amountOfIslands; i++) {
             finalProduct *= weightedValues[i];
@@ -101,7 +102,7 @@ public class Continent
         return finalProduct;
     }
 
-    private Tile GetTileByHeight(double height) {
+    private Tile GetTileByHeight(float height) {
 
         for(int i = tileTypes.Length - 1; i >= 0; i--) {
             if(height > tileTypes[i].getHeight()) {
