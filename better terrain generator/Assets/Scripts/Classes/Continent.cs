@@ -45,7 +45,7 @@ public class Continent
 
                 Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
 
-                if(Vector2.Distance(currentTile, position) > radious) {
+                if(Vector2.Distance(currentTile, position) < radious) {
                     double[] distances = GetAllDistances(currentTile);
                     double[] values = GetAllWaveValues(distances);
 
