@@ -42,16 +42,19 @@ public class Continent
     public void ChangeTerrain() {
         for(int x = 0; x < radious*2; x++) {
             for(int y = 0; y < radious*2; y++) {
+
                 Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
 
-                double[] distances = GetAllDistances(currentTile);
-                double[] values = GetAllWaveValues(distances);
+                if(Vector2.Distance(currentTile, position) > radious) {
+                    double[] distances = GetAllDistances(currentTile);
+                    double[] values = GetAllWaveValues(distances);
 
-                double[] weightedValues = GetWeightedValues(values, distances);
+                    double[] weightedValues = GetWeightedValues(values, distances);
 
-                double finalHeight = GetProduct(weightedValues);
+                    double finalHeight = GetProduct(weightedValues);
 
-                map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
+                    map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
+                }
             }
         }
     }
@@ -99,6 +102,7 @@ public class Continent
     private Tile GetTileByHeight(double height) {
 
         for(int i = tileTypes.Length - 1; i >= 0; i--) {
+            Debug.Log(i);
             if(height >= tileTypes[i].getHeight()) {
                 return tileTypes[i].getTile();
             }
