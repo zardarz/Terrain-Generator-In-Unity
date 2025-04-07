@@ -50,7 +50,7 @@ public class Continent
                 double[] weightedValues = GetWeightedValues(values, distances);
                 Debug.Log(weightedValues[0]);
 
-                double finalHeight = values[0];
+                double finalHeight = GetProduct(weightedValues);
 
                 map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
             }
@@ -91,7 +91,7 @@ public class Continent
         double finalProduct = 1;
 
         for(int i = 0; i < amountOfIslands; i++) {
-            finalProduct *= weightedValues[i];
+            finalProduct += weightedValues[i];
         }
 
         return finalProduct;
