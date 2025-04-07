@@ -45,11 +45,12 @@ public class Continent
                 Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
 
                 double[] distances = GetAllDistances(currentTile);
-                double[] values = GetAllWaveValues(currentTile, distances);
+                double[] values = GetAllWaveValues(distances);
 
                 double[] weightedValues = GetWeightedValues(values, distances);
+                Debug.Log(weightedValues[0]);
 
-                double finalHeight = GetProduct(weightedValues);
+                double finalHeight = values[0];
 
                 map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
             }
@@ -66,7 +67,7 @@ public class Continent
         return distances;
     }
 
-    private double[] GetAllWaveValues(Vector2Int currentTile, double[] distances) {
+    private double[] GetAllWaveValues(double[] distances) {
         double[] values = new double[amountOfIslands];
 
         for(int valueIndex = 0; valueIndex < amountOfIslands; valueIndex++) {
