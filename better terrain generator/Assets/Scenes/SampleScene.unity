@@ -269,8 +269,31 @@ MonoBehaviour:
     height: 0.85
   - tile: {fileID: 11400000, guid: 732acdafe764849009677d5762809f34, type: 2}
     height: 1
-  minIslands: 0
-  maxIslands: 0
+  debugTiles:
+  - tile: {fileID: 11400000, guid: f28235b886a674691b3b8f459d082db0, type: 2}
+    height: 0
+  - tile: {fileID: 11400000, guid: 8faa3fb50243a42858298a92bcaf4d9e, type: 2}
+    height: 0.1
+  - tile: {fileID: 11400000, guid: b7c9c8ecd94c94d3496eb6b21aab1934, type: 2}
+    height: 0.2
+  - tile: {fileID: 11400000, guid: c1e792ad4fd65405b948fc7c1c98c929, type: 2}
+    height: 0.3
+  - tile: {fileID: 11400000, guid: dd0bd6bbfd09a470298ae31cf9e2b5b0, type: 2}
+    height: 0.4
+  - tile: {fileID: 11400000, guid: 1234169b06699488ca2d92cb3909c4e5, type: 2}
+    height: 0.5
+  - tile: {fileID: 11400000, guid: 7bf68c53930ee4e86b95718c2df524cd, type: 2}
+    height: 0.6
+  - tile: {fileID: 11400000, guid: 239a35083d1a943919ccfa7689cceb9c, type: 2}
+    height: 0.7
+  - tile: {fileID: 11400000, guid: 684c68cc36679407e96920533aa76cce, type: 2}
+    height: 0.8
+  - tile: {fileID: 11400000, guid: cb2b74da4fefa407993ea2605e768a05, type: 2}
+    height: 0.9
+  - tile: {fileID: 11400000, guid: c06ed5002eef24323a5613b1b9e1deb0, type: 2}
+    height: 1
+  minIslands: 20
+  maxIslands: 30
 --- !u!483693784 &1164143241
 TilemapRenderer:
   m_ObjectHideFlags: 0

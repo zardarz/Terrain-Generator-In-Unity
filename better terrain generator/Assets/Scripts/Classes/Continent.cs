@@ -48,7 +48,6 @@ public class Continent
                 double[] values = GetAllWaveValues(distances);
 
                 double[] weightedValues = GetWeightedValues(values, distances);
-                Debug.Log(weightedValues[0]);
 
                 double finalHeight = GetProduct(weightedValues);
 
