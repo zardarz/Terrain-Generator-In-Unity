@@ -101,9 +101,10 @@ public class Continent
 
     private Tile GetTileByHeight(double height) {
 
+        Debug.Log(height);
+
         for(int i = tileTypes.Length - 1; i >= 0; i--) {
-            Debug.Log(i);
-            if(height >= tileTypes[i].getHeight()) {
+            if(height > tileTypes[i].getHeight()) {
                 return tileTypes[i].getTile();
             }
         }
