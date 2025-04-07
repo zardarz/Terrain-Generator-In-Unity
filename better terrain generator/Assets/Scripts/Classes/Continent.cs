@@ -66,7 +66,8 @@ public class Continent
 
         for(int distanceIndex = 0; distanceIndex < amountOfIslands; distanceIndex++) {
             float distance = Vector2.Distance(currentTile, islands[distanceIndex].getPos());
-            distances[distanceIndex] = distance / (radious * 2);
+            distances[distanceIndex] = distance;
+            //Debug.Log(distances[distanceIndex]);
         }
 
         return distances;
@@ -86,7 +87,9 @@ public class Continent
         float[] weightedValues = new float[amountOfIslands];
 
         for(int i = 0; i < amountOfIslands; i++) {
-            weightedValues[i] = values[i] / Math.Max(1, distances[i]);
+            if(distances[i] != 0) {
+                weightedValues[i] = distances[i] / values[i];
+            }
         }
 
         return weightedValues;
