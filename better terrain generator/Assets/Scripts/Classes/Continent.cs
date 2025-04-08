@@ -47,7 +47,7 @@ public class Continent
                 if(Vector2.Distance(currentTile, position) < radious) {
                     float finalHeight = getHeight(currentTile);
 
-                    //Debug.Log(finalHeight);
+                    Debug.Log(finalHeight);
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -59,8 +59,6 @@ public class Continent
         float[][] distancesAndValues = new float[2][];
 
         float sum = 0;
-
-        float height = 0;
 
         for (int i = 0; i < 2; i++)
         {
@@ -94,7 +92,7 @@ public class Continent
 
         }
 
-        return height / amountOfIslands;
+        return sum / amountOfIslands;
     }
 
     private Tile GetTileByHeight(float height) {
