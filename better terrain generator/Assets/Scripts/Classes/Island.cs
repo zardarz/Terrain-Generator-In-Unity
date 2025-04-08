@@ -13,7 +13,7 @@ public class Island
         continentRadious = radious;
     }
     public float getWave(float x) {
-        return Mathf.Cos(x*(1/100));
+        return Mathf.Cos(continentRadious * x*(1/100));
     }
 
     public Vector2Int getPos() {
