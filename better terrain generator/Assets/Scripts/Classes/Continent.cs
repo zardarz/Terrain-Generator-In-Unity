@@ -33,7 +33,7 @@ public class Continent
 
             Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
 
-            Island newIsland = new(newPosInt);
+            Island newIsland = new(newPosInt, radious);
 
             islands[i] = newIsland;
         }
@@ -53,7 +53,7 @@ public class Continent
 
                     float finalHeight = GetProduct(weightedValues);
 
-                    //Debug.Log(finalHeight);
+                    Debug.Log(finalHeight);
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -100,10 +100,10 @@ public class Continent
     }
 
     private float GetProduct(float[] weightedValues) {
-        float finalProduct = 1;
+        float finalProduct = 0;
 
         for(int i = 0; i < amountOfIslands; i++) {
-            finalProduct *= weightedValues[i];
+            finalProduct += weightedValues[i];
         }
 
         return finalProduct;
