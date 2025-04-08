@@ -8,15 +8,22 @@ public class Island
 
     private readonly float continentRadious;
 
-    public Island(Vector2Int pos, float radious) {
+    private readonly float islandRadious;
+
+    public Island(Vector2Int pos, float radious, float islandRadious) {
         position = pos;
         continentRadious = radious;
+        this.islandRadious = islandRadious;
     }
     public float getWave(float x) {
-        return Mathf.Cos(continentRadious * x*(1/100));
+        return Mathf.Cos(continentRadious * x *(1/100));
     }
 
     public Vector2Int getPos() {
         return position;
+    }
+
+    public float getIslandRadious() {
+        return islandRadious;
     }
 }

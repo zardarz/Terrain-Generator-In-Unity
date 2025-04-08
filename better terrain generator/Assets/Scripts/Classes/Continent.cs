@@ -32,7 +32,7 @@ public class Continent
 
             Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
 
-            Island newIsland = new(newPosInt, radious);
+            Island newIsland = new(newPosInt, radious, Random.Range(0,radious));
 
             islands[i] = newIsland;
         }
@@ -52,7 +52,7 @@ public class Continent
 
                     float finalHeight = GetProduct(weightedValues);
 
-                    Debug.Log(finalHeight);
+                    //Debug.Log(finalHeight);
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -80,7 +80,13 @@ public class Continent
         float[] values = new float[amountOfIslands];
 
         for(int valueIndex = 0; valueIndex < amountOfIslands; valueIndex++) {
-            values[valueIndex] = islands[valueIndex].getWave(distances[valueIndex]);
+            Island island = islands[valueIndex];
+            float islandWaveValue = island.getWave(distances[valueIndex]);
+            float islandRadious = island.getIslandRadious();
+
+            Debug.Log(islandRadious);
+
+            values[valueIndex] = islandWaveValue * ((islandRadious / radious) + 1);
         }
 
         return values;
