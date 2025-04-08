@@ -53,7 +53,7 @@ public class Continent
 
                     float finalHeight = GetProduct(weightedValues);
 
-                    Debug.Log(finalHeight);
+                    //Debug.Log(finalHeight);
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -66,8 +66,12 @@ public class Continent
 
         for(int distanceIndex = 0; distanceIndex < amountOfIslands; distanceIndex++) {
             float distance = Vector2.Distance(currentTile, islands[distanceIndex].getPos());
+
+            if(distance == 0) {
+                distance = 1;
+            }
+
             distances[distanceIndex] = distance;
-            //Debug.Log(distances[distanceIndex]);
         }
 
         return distances;
