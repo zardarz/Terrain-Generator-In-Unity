@@ -45,12 +45,7 @@ public class Continent
                 Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
 
                 if(Vector2.Distance(currentTile, position) < radious) {
-                    float[] distances = GetAllDistances(currentTile);
-                    float[] values = GetAllWaveValues(distances);
-
-                    float[] weightedValues = GetWeightedValues(values, distances);
-
-                    float finalHeight = GetProduct(weightedValues);
+                    float finalHeight = getHeight(currentTile);
 
                     //Debug.Log(finalHeight);
 
@@ -60,58 +55,46 @@ public class Continent
         }
     }
 
-    private float[] GetAllDistances(Vector2Int currentTile) {
-        float[] distances = new float[amountOfIslands];
+    private float getHeight(Vector2Int currentTile) {
+        float[][] distancesAndValues = new float[2][];
 
-        for(int distanceIndex = 0; distanceIndex < amountOfIslands; distanceIndex++) {
-            float distance = Vector2.Distance(currentTile, islands[distanceIndex].getPos());
+        float sum = 0;
+
+        float height = 0;
+
+        for (int i = 0; i < 2; i++)
+        {
+            distancesAndValues[i] = new float[amountOfIslands];
+        }
+
+        for(int i = 0; i < amountOfIslands; i++) {
+            Island island = islands[i];
+
+
+            float distance = Vector2.Distance(currentTile, island.getPos());
 
             if(distance == 0) {
                 distance = 1;
             }
 
-            distances[distanceIndex] = distance;
-        }
+            distancesAndValues[0][i] = distance;
 
-        return distances;
-    }
 
-    private float[] GetAllWaveValues(float[] distances) {
-        float[] values = new float[amountOfIslands];
-
-        for(int valueIndex = 0; valueIndex < amountOfIslands; valueIndex++) {
-            Island island = islands[valueIndex];
-            float islandWaveValue = island.getWave(distances[valueIndex]);
+            float islandWaveValue = island.getWave(distance);
             float islandRadious = island.getIslandRadious();
 
             Debug.Log(islandRadious);
 
-            values[valueIndex] = islandWaveValue * ((islandRadious / radious) + 1);
-        }
+            distancesAndValues[1][i] = islandWaveValue * ((islandRadious / radious) + 1);
 
-        return values;
-    }
 
-    private float[] GetWeightedValues(float[] values, float[] distances) {
-        float[] weightedValues = new float[amountOfIslands];
-
-        for(int i = 0; i < amountOfIslands; i++) {
-            if(distances[i] != 0) {
-                weightedValues[i] = values[i] / distances[i];
+            if(distancesAndValues[0][i] != 0) {
+                sum += distancesAndValues[1][i] / distancesAndValues[0][i];
             }
+
         }
 
-        return weightedValues;
-    }
-
-    private float GetProduct(float[] weightedValues) {
-        float finalProduct = 0;
-
-        for(int i = 0; i < amountOfIslands; i++) {
-            finalProduct += weightedValues[i];
-        }
-
-        return finalProduct;
+        return height / amountOfIslands;
     }
 
     private Tile GetTileByHeight(float height) {
