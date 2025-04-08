@@ -10,11 +10,8 @@ public class Continent
     private Vector2Int position;
     private Island[] islands;
     private readonly int amountOfIslands;
-
     private readonly float radious;
-
     private readonly TileType[] tileTypes;
-    
 
     public Continent(Tilemap map, Vector2Int pos, int minIslands, int maxIslands, float radious, TileType[] tileTypes) {
         this.map = map;
@@ -28,32 +25,24 @@ public class Continent
     }
 
     private void GenerateIslands() {
-        for(int i = 0; i < amountOfIslands; i++) {
+        for (int i = 0; i < amountOfIslands; i++) {
             Vector2 newPos = Random.insideUnitCircle;
-
-            Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
-
+            Vector2Int newPosInt = new((int)(newPos.x * radious), (int)(newPos.y * radious));
             Island newIsland = new(newPosInt);
-
             islands[i] = newIsland;
         }
     }
 
     public void ChangeTerrain() {
-        for(int x = 0; x < radious*2; x++) {
-            for(int y = 0; y < radious*2; y++) {
+        for (int x = 0; x < radious * 2; x++) {
+            for (int y = 0; y < radious * 2; y++) {
+                Vector2Int currentTile = new((int)(x - radious), (int)(y - radious));
 
-                Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
-
-                if(Vector2.Distance(currentTile, position) < radious) {
+                if (Vector2.Distance(currentTile, position) < radious) {
                     float[] distances = GetAllDistances(currentTile);
                     float[] values = GetAllWaveValues(distances);
 
-                    float[] weightedValues = GetWeightedValues(values, distances);
-
-                    float finalHeight = GetProduct(weightedValues);
-
-                    Debug.Log(finalHeight);
+                    float finalHeight = GetWeightedAverage(values, distances);
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -64,10 +53,9 @@ public class Continent
     private float[] GetAllDistances(Vector2Int currentTile) {
         float[] distances = new float[amountOfIslands];
 
-        for(int distanceIndex = 0; distanceIndex < amountOfIslands; distanceIndex++) {
-            float distance = Vector2.Distance(currentTile, islands[distanceIndex].getPos());
-            distances[distanceIndex] = distance;
-            //Debug.Log(distances[distanceIndex]);
+        for (int i = 0; i < amountOfIslands; i++) {
+            float distance = Vector2.Distance(currentTile, islands[i].getPos());
+            distances[i] = distance / (radious * 2); // Normalize to [0,1]
         }
 
         return distances;
@@ -76,39 +64,31 @@ public class Continent
     private float[] GetAllWaveValues(float[] distances) {
         float[] values = new float[amountOfIslands];
 
-        for(int valueIndex = 0; valueIndex < amountOfIslands; valueIndex++) {
-            values[valueIndex] = islands[valueIndex].getWave(distances[valueIndex]);
+        for (int i = 0; i < amountOfIslands; i++) {
+            values[i] = islands[i].getWave(distances[i]);
         }
 
         return values;
     }
 
-    private float[] GetWeightedValues(float[] values, float[] distances) {
-        float[] weightedValues = new float[amountOfIslands];
+    private float GetWeightedAverage(float[] values, float[] distances) {
+        float sum = 0f;
+        float totalWeight = 0f;
 
-        for(int i = 0; i < amountOfIslands; i++) {
-            if(distances[i] != 0) {
-                weightedValues[i] = distances[i] / values[i];
-            }
+        for (int i = 0; i < values.Length; i++) {
+            float weight = Mathf.Pow(Mathf.Clamp01(1f - distances[i]), 2f); // Squared falloff
+            sum += values[i] * weight;
+            totalWeight += weight;
         }
 
-        return weightedValues;
-    }
+        if (totalWeight == 0f) return 0f;
 
-    private float GetProduct(float[] weightedValues) {
-        float finalProduct = 1;
-
-        for(int i = 0; i < amountOfIslands; i++) {
-            finalProduct *= weightedValues[i];
-        }
-
-        return finalProduct;
+        return sum / totalWeight;
     }
 
     private Tile GetTileByHeight(float height) {
-
-        for(int i = tileTypes.Length - 1; i >= 0; i--) {
-            if(height > tileTypes[i].getHeight()) {
+        for (int i = tileTypes.Length - 1; i >= 0; i--) {
+            if (height > tileTypes[i].getHeight()) {
                 return tileTypes[i].getTile();
             }
         }

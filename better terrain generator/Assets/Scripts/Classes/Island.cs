@@ -10,7 +10,7 @@ public class Island
         position = pos;
     }
     public float getWave(float x) {
-        return Mathf.Sin(x);
+        return Mathf.Cos(x);
     }
 
     public Vector2Int getPos() {
