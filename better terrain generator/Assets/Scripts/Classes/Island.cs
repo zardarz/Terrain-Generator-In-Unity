@@ -12,11 +12,11 @@ public class Island
 
     public Island(Vector2Int pos, float radious, float islandRadious) {
         position = pos;
-        continentRadious = radious;
+        continentRadious = radious; 
         this.islandRadious = islandRadious;
     }
     public float getWave(float x) {
-        return Mathf.Cos(continentRadious * x *(1/100));
+        return Mathf.Cos(2/continentRadious);
     }
 
     public Vector2Int getPos() {

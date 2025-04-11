@@ -56,45 +56,42 @@ public class Continent
     }
 
     private float getHeight(Vector2Int currentTile) {
-        float[][] distancesAndValues = new float[2][];
-
         float sum = 0;
-
-        for (int i = 0; i < 2; i++)
-        {
-            distancesAndValues[i] = new float[amountOfIslands];
-        }
 
         for(int i = 0; i < amountOfIslands; i++) {
             Island island = islands[i];
 
-
-            float distance = Vector2.Distance(currentTile, island.getPos());
-
-            if(distance == 0) {
-                distance = 1;
-            }
-
-            distancesAndValues[0][i] = distance;
+            float distance = GetDistance(currentTile, island);
+            float waveValue = GetWaveValue(island, distance);
 
 
-            float islandWaveValue = island.getWave(distance);
-            float islandRadious = island.getIslandRadious();
-
-            Debug.Log(islandRadious);
-
-            distancesAndValues[1][i] = islandWaveValue * ((islandRadious / radious) + 1);
-
-
-            if(distancesAndValues[0][i] != 0) {
-                sum += distancesAndValues[1][i] / distancesAndValues[0][i];
+            if(distance != 0) {
+                sum += waveValue / distance;
             }
 
         }
 
-        return sum / amountOfIslands;
+        return sum / amountOfIslands * 10;
+    }
+    
+    private float GetDistance(Vector2Int currentTile, Island island) {
+        float distance = Vector2.Distance(currentTile, island.getPos());
+
+        if(distance == 0) {
+            distance = 1;
+        }
+
+        return distance;
     }
 
+    private float GetWaveValue(Island island, float distance) {
+        float islandWaveValue = island.getWave(distance);
+        float islandRadious = island.getIslandRadious();
+
+        islandWaveValue *= islandRadious / radious * 7;
+
+        return islandWaveValue;
+    }
     private Tile GetTileByHeight(float height) {
 
         for(int i = tileTypes.Length - 1; i >= 0; i--) {

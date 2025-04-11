@@ -184,7 +184,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 120
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ec7f991d6da4490b2e21a15d8202d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  zoomSpeed: 5
+  zoomSpeed: 7
   minZoom: 2
   maxZoom: Infinity
   panSpeed: 1
@@ -281,9 +281,9 @@ MonoBehaviour:
   - tile: {fileID: 11400000, guid: 00e4e451cde8142209f799c0e9610849, type: 2}
     height: 0.15
   - tile: {fileID: 11400000, guid: ba85e26a659fc4d4abc0933b25dff6e1, type: 2}
-    height: 0.45
+    height: 0.47
   - tile: {fileID: 11400000, guid: b7d36efc14dfd4d898b396029bd75221, type: 2}
-    height: 0.53
+    height: 0.546
   - tile: {fileID: 11400000, guid: 795ad471d704e4c0f848bcf8fd100859, type: 2}
     height: 0.55
   - tile: {fileID: 11400000, guid: 4265df6f8e06046d38e612b57ecd9ddd, type: 2}
@@ -321,8 +321,8 @@ MonoBehaviour:
     height: 0.9
   - tile: {fileID: 11400000, guid: c06ed5002eef24323a5613b1b9e1deb0, type: 2}
     height: 1
-  minIslands: 1
-  maxIslands: 1
+  minIslands: 10
+  maxIslands: 20
 --- !u!483693784 &1164143241
 TilemapRenderer:
   m_ObjectHideFlags: 0
