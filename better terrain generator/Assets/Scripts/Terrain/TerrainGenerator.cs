@@ -26,13 +26,10 @@ public class TerrainGenerator : MonoBehaviour
     }
 
     private void makeWave() {
-        islandCurve.AddKey(0, Random.Range(0, 100) / 100f);
-        islandCurve.AddKey(1, Random.Range(0, 100) / 100f);
-
-        int amountOfKeys = Random.Range(1, 100);
+        int amountOfKeys = Random.Range(1, 5);
         float keyJump = 1f / amountOfKeys;
 
-        for (int i = 1; i < amountOfKeys; i++) {
+        for (int i = 0; i < amountOfKeys + 1; i++) {
             float keyTime = i * keyJump;
             float keyHeight = Random.Range(25, 75) / 100f;
 

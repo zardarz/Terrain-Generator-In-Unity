@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Random = UnityEngine.Random;
+using UnityEngine.Animations;
+using System;
 
 public class Continent
 {
@@ -32,7 +34,7 @@ public class Continent
 
             Vector2Int newPosInt = new(0,0);
 
-            Island newIsland = new(newPosInt, radious, Random.Range(0,radious), Random.Range(3,15));
+            Island newIsland = new(newPosInt, radious, Random.Range(0,radious));
 
             islands[i] = newIsland;
         }
@@ -47,7 +49,6 @@ public class Continent
                 if(Vector2.Distance(currentTile, position) < radious) {
                     float finalHeight = getHeight(currentTile);
 
-                    Debug.Log(finalHeight);
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -64,9 +65,10 @@ public class Continent
             float distance = GetDistance(currentTile, island);
             float waveValue = GetWaveValue(island, distance);
 
+            float weightedWaveValue = GetWeightedWaveValue(waveValue, distance, island);
 
             if(distance != 0) {
-                sum += waveValue;
+                sum += weightedWaveValue;
             }
         }
 
@@ -94,12 +96,16 @@ public class Continent
 
     private float GetWaveValue(Island island, float distance) {
         float islandWaveValue = island.getWave(distance);
-        float islandRadious = island.getIslandRadious();
-
-        //islandWaveValue *= islandRadious / radious * island.getIslandScale();
 
         return islandWaveValue;
     }
+
+    private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
+        float weightedWaveValue = waveValue * (1f - (distance / island.getIslandRadious()));
+
+        return weightedWaveValue;
+    }
+
     private Tile GetTileByHeight(float height) {
 
         for(int i = tileTypes.Length - 1; i >= 0; i--) {
