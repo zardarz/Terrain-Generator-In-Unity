@@ -71,7 +71,7 @@ public class Continent
 
         }
 
-        return sum / amountOfIslands * 10;
+        return sum / amountOfIslands * 10 * (Random.Range(85,100) / 100);
     }
     
     private float GetDistance(Vector2Int currentTile, Island island) {
