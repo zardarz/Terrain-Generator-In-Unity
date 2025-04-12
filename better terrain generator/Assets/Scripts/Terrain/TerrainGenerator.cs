@@ -36,7 +36,7 @@ public class TerrainGenerator : MonoBehaviour
             float keyTime = i * keyJump;
             float keyHeight = Random.Range(25, 75) / 100f;
 
-            Debug.Log(keyHeight);
+            //Debug.Log(keyHeight);
 
             islandCurve.AddKey(keyTime, keyHeight);
         }

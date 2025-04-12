@@ -33,14 +33,14 @@ public class Island
             float keyTime = i * keyJump;
             float keyHeight = Random.Range(25, 75) / 100f;
 
-            Debug.Log(keyHeight);
+            //Debug.Log(keyHeight);
 
             islandCurve.AddKey(keyTime, keyHeight);
         }
     }
 
     public float getWave(float x) {
-        return islandCurve.Evaluate(x);
+        return islandCurve.Evaluate(x/continentRadious);
     }
 
     public Vector2Int getPos() {

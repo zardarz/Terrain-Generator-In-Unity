@@ -47,6 +47,8 @@ public class Continent
                 if(Vector2.Distance(currentTile, position) < radious) {
                     float finalHeight = getHeight(currentTile);
 
+                    Debug.Log(finalHeight);
+
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
             }
@@ -77,7 +79,7 @@ public class Continent
             distanceFromCenterMultiplyer = -25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
         }
 
-        return sum / amountOfIslands * (Random.Range(95,100) / 100f);
+        return sum / amountOfIslands;
     }
     
     private float GetDistance(Vector2Int currentTile, Island island) {
@@ -94,7 +96,7 @@ public class Continent
         float islandWaveValue = island.getWave(distance);
         float islandRadious = island.getIslandRadious();
 
-        islandWaveValue *= islandRadious / radious * island.getIslandScale();
+        //islandWaveValue *= islandRadious / radious * island.getIslandScale();
 
         return islandWaveValue;
     }
