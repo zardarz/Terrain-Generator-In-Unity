@@ -77,7 +77,7 @@ public class Continent
             distanceFromCenterMultiplyer = -25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
         }
 
-        return sum / amountOfIslands * 10 * (Random.Range(95,100) / 100f) * distanceFromCenterMultiplyer;
+        return sum / amountOfIslands * (Random.Range(95,100) / 100f);
     }
     
     private float GetDistance(Vector2Int currentTile, Island island) {
