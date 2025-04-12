@@ -20,7 +20,7 @@ public class Island
         islandScale = Random.Range(1,10);
     }
     public float getWave(float x) {
-        return Mathf.Cos(2/continentRadious);
+        return Mathf.Cos(continentRadious * x *(1/100));
     }
 
     public Vector2Int getPos() {
