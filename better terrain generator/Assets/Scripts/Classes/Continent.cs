@@ -64,7 +64,7 @@ public class Continent
 
 
             if(distance != 0) {
-                sum += waveValue / distance;
+                sum += waveValue;
             }
         }
 
