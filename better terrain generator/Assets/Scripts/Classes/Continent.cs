@@ -3,7 +3,8 @@ using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Random = UnityEngine.Random;
 
-public class Continent
+[System.Serializable]
+public class Continent : MonoBehaviour
 {
     private Tilemap map;
     private Vector2Int position;
@@ -13,6 +14,12 @@ public class Continent
     private readonly float radious;
 
     private readonly TileType[] tileTypes;
+
+    [ContextMenu("Regenerate Terrain")]
+    public void RegenerateFromContextMenu()
+    {
+        ChangeTerrain();
+    }
     
 
     public Continent(Tilemap map, Vector2Int pos, int minIslands, int maxIslands, float radious, TileType[] tileTypes) {
@@ -21,7 +28,7 @@ public class Continent
         this.tileTypes = tileTypes;
         position = pos;
 
-        islands = new Island[Random.Range(minIslands, maxIslands + 1)];
+        islands = new Island[1];
         amountOfIslands = islands.Length;
         GenerateIslands();
     }
@@ -30,9 +37,9 @@ public class Continent
         for(int i = 0; i < amountOfIslands; i++) {
             Vector2 newPos = Random.insideUnitCircle;
 
-            Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
+            Vector2Int newPosInt = new(0,0);
 
-            Island newIsland = new(newPosInt, radious, Random.Range(0,radious));
+            Island newIsland = new(newPosInt, radious, 50);
 
             islands[i] = newIsland;
         }
@@ -88,7 +95,7 @@ public class Continent
         float islandWaveValue = island.getWave(distance);
         float islandRadious = island.getIslandRadious();
 
-        islandWaveValue *= islandRadious / radious * 7;
+        islandWaveValue *= islandRadious / radious * island.getIslandScale();
 
         return islandWaveValue;
     }
