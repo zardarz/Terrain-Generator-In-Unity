@@ -30,7 +30,7 @@ public class Continent
         for(int i = 0; i < amountOfIslands; i++) {
             Vector2 newPos = Random.insideUnitCircle;
 
-            Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
+            Vector2Int newPosInt = new(0,0);
 
             Island newIsland = new(newPosInt, radious, Random.Range(0,radious), Random.Range(3,15));
 

@@ -23,19 +23,22 @@ public class Island
     }
 
     private void makeWave() {
-        islandCurve.AddKey(0,1);
-        islandCurve.AddKey(1,1);
+        islandCurve.AddKey(0, 1);
+        islandCurve.AddKey(1, 1);
 
-        int amountOfKeys = Random.Range(1,10);
-        float keyJump = 1/amountOfKeys;
+        int amountOfKeys = Random.Range(1, 10);
+        float keyJump = 1f / amountOfKeys;
 
-        for(float i = keyJump; i < amountOfKeys * keyJump; i += keyJump) {
-            float keyHeight = Random.Range(90, 100) / 100f;
+        for (int i = 1; i < amountOfKeys; i++) {
+            float keyTime = i * keyJump;
+            float keyHeight = Random.Range(30, 100) / 100f;
+            
             Debug.Log(keyHeight);
 
-            islandCurve.AddKey(i, keyHeight);
+            islandCurve.AddKey(keyTime, keyHeight);
         }
     }
+
     public float getWave(float x) {
         return islandCurve.Evaluate(x);
     }
