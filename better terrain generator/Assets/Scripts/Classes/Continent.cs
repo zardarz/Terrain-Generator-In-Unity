@@ -32,9 +32,10 @@ public class Continent
         for(int i = 0; i < amountOfIslands; i++) {
             Vector2 newPos = Random.insideUnitCircle;
 
-            Vector2Int newPosInt = new(0,0);
+            Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
 
             Island newIsland = new(newPosInt, radious, Random.Range(0,radious));
+            Debug.Log(newIsland.getPos());
 
             islands[i] = newIsland;
         }
@@ -48,7 +49,6 @@ public class Continent
 
                 if(Vector2.Distance(currentTile, position) < radious) {
                     float finalHeight = getHeight(currentTile);
-
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -81,7 +81,7 @@ public class Continent
             distanceFromCenterMultiplyer = -25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
         }
 
-        return sum / amountOfIslands;
+        return sum / amountOfIslands * (Random.Range(90,100) / 100f) * distanceFromCenterMultiplyer;
     }
     
     private float GetDistance(Vector2Int currentTile, Island island) {
@@ -101,7 +101,7 @@ public class Continent
     }
 
     private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
-        float weightedWaveValue = waveValue * (1f - (distance / island.getIslandRadious()));
+        float weightedWaveValue = waveValue / (distance / island.getIslandRadious());
 
         return weightedWaveValue;
     }

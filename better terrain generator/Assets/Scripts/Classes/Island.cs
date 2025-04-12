@@ -25,7 +25,7 @@ public class Island
 
         for (int i = 0; i < amountOfKeys + 1; i++) {
             float keyTime = i * keyJump;
-            float keyHeight = Random.Range(25, 75) / 100f;
+            float keyHeight = Random.Range(0, 100) / 100f;
 
             //Debug.Log(keyHeight);
 
@@ -34,7 +34,7 @@ public class Island
     }
 
     public float getWave(float x) {
-        return islandCurve.Evaluate(x/islandRadious);
+        return islandCurve.Evaluate(Mathf.Min(islandRadious,x)/islandRadious);
     }
 
     public Vector2Int getPos() {
