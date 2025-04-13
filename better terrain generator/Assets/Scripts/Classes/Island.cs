@@ -34,7 +34,7 @@ public class Island
     }
 
     public float getWave(float x) {
-        return islandCurve.Evaluate(x/continentRadious);
+        return islandCurve.Evaluate(x/islandRadious);
     }
 
     public Vector2Int getPos() {
@@ -43,5 +43,9 @@ public class Island
 
     public float getIslandRadious() {
         return islandRadious;
+    }
+
+    public AnimationCurve getIslandCurve() {
+        return islandCurve;
     }
 }
