@@ -11,8 +11,6 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private int minIslands;
     [SerializeField] private int maxIslands;
 
-    public AnimationCurve islandCurve;
-
     private Continent continent;
 
     void Awake()

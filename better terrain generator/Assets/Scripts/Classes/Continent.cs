@@ -109,7 +109,7 @@ public class Continent
             distanceFromCenterMultiplyer = -25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
         }
 
-        return sum / amountOfIslands * distanceFromCenterMultiplyer;
+        return sum / amountOfIslands * (Random.Range(90,100) / 100f) * distanceFromCenterMultiplyer;
     }
     
     private float GetDistance(Vector2Int currentTile, Island island) {
@@ -129,7 +129,7 @@ public class Continent
     }
 
     private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
-        float weightedWaveValue = waveValue;
+        float weightedWaveValue = waveValue / (distance / island.getIslandRadious());
 
         return weightedWaveValue;
     }
