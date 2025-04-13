@@ -20,7 +20,7 @@ public class Island
     }
 
     private void makeWave() {
-        int amountOfKeys = Random.Range(1, 5);
+        int amountOfKeys = Random.Range(1, 10);
         float keyJump = 1f / amountOfKeys;
 
         for (int i = 0; i < amountOfKeys + 1; i++) {
@@ -34,7 +34,7 @@ public class Island
     }
 
     public float getWave(float x) {
-        return islandCurve.Evaluate(Mathf.Min(islandRadious,x)/islandRadious);
+        return islandCurve.Evaluate(x/continentRadious);
     }
 
     public Vector2Int getPos() {

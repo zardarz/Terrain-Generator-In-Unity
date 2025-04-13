@@ -26,7 +26,7 @@ public class TerrainGenerator : MonoBehaviour
     }
 
     private void makeWave() {
-        int amountOfKeys = Random.Range(1, 5);
+        int amountOfKeys = Random.Range(1, 10);
         float keyJump = 1f / amountOfKeys;
 
         for (int i = 0; i < amountOfKeys + 1; i++) {
