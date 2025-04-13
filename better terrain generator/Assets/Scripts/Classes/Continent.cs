@@ -36,7 +36,7 @@ public class Continent
 
             Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
 
-            Island newIsland = new(newPosInt, radious, Random.Range(0,radious));
+            Island newIsland = new(newPosInt, Random.Range(0,radious));
             
             MakeIslandComponent(islandParent.transform, newIsland, newPosInt, i);
 
@@ -129,7 +129,11 @@ public class Continent
     }
 
     private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
-        float weightedWaveValue = waveValue / (distance / island.getIslandRadious());
+        float weightedWaveValue = waveValue / (1f - (distance / island.getIslandRadious()));
+
+        if(distance <= 10f) {
+            Debug.Log(distance + " : " + weightedWaveValue + " : " + (1f - (distance / island.getIslandRadious())));
+        }
 
         return weightedWaveValue;
     }

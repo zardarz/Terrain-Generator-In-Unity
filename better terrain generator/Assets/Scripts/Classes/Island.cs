@@ -6,14 +6,11 @@ public class Island
 
     private Vector2Int position;
 
-    private readonly float continentRadious;
-
     private readonly float islandRadious;
 
-    public Island(Vector2Int pos, float radious, float islandRadious) {
+    public Island(Vector2Int pos, float islandRadious) {
         islandCurve = new();
         position = pos;
-        continentRadious = radious; 
         this.islandRadious = islandRadious;
 
         makeWave();
@@ -25,7 +22,7 @@ public class Island
 
         for (int i = 0; i < amountOfKeys + 1; i++) {
             float keyTime = i * keyJump;
-            float keyHeight = Random.Range(0, 100) / 100f;
+            float keyHeight = Random.Range(80, 100) / 100f;
 
             //Debug.Log(keyHeight);
 
