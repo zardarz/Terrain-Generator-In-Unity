@@ -22,7 +22,7 @@ public class Island
 
         for (int i = 0; i < amountOfKeys + 1; i++) {
             float keyTime = i * keyJump;
-            float keyHeight = Random.Range(80, 100) / 100f;
+            float keyHeight = Random.Range(0, 100) / 100f;
 
             //Debug.Log(keyHeight);
 

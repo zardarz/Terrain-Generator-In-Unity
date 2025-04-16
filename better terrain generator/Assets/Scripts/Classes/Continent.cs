@@ -76,7 +76,7 @@ public class Continent
                 Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
 
                 if(Vector2.Distance(currentTile, position) < radious) {
-                    float finalHeight = getHeight(currentTile);
+                    float finalHeight = getHeight(currentTile) * 10f;
 
                     map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
                 }
@@ -129,14 +129,20 @@ public class Continent
     }
 
     private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
-        float weightedWaveValue = waveValue / (1f - (distance / island.getIslandRadious()));
+        float radius = island.getIslandRadious();
+        
+        if (distance >= radius) return 0f;
+
+        float weight = 1f - (distance / radius);
+        float weightedWaveValue = waveValue * weight;
 
         if(distance <= 10f) {
-            Debug.Log(distance + " : " + weightedWaveValue + " : " + (1f - (distance / island.getIslandRadious())));
+            Debug.Log(distance + " : " + weightedWaveValue + " : " + weight + " : " + waveValue);
         }
 
         return weightedWaveValue;
     }
+
 
     private Tile GetTileByHeight(float height) {
 
