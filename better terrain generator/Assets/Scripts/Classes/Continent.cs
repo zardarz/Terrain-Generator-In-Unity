@@ -106,7 +106,7 @@ public class Continent
         if(distanceFromCenter < 0.8f) {
             distanceFromCenterMultiplyer = 1f;
         } else {
-            distanceFromCenterMultiplyer = -25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
+            distanceFromCenterMultiplyer = 25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
         }
 
         return sum / amountOfIslands * (Random.Range(90,100) / 100f) * distanceFromCenterMultiplyer;
