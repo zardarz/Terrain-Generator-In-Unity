@@ -11,18 +11,18 @@ public class Continent
     private IslandComponent[] islandComponents;
     private readonly int amountOfIslands;
 
-    private readonly float radious;
+    private readonly float radius;
 
     private readonly TileType[] tileTypes;
     
 
-    public Continent(Tilemap map, Vector2Int pos, float radious, TileType[] tileTypes) {
+    public Continent(Tilemap map, Vector2Int pos, float radius, TileType[] tileTypes) {
         this.map = map;
-        this.radious = radious;
+        this.radius = radius;
         this.tileTypes = tileTypes;
         position = pos;
 
-        amountOfIslands = Random.Range((int) radious/10, (int) radious/10 + 5);
+        amountOfIslands = Random.Range((int) radius/10, (int) radius/10 + 5);
         islands = new Island[amountOfIslands];
         islandComponents = new IslandComponent[amountOfIslands];
         GenerateIslands();
@@ -34,9 +34,9 @@ public class Continent
         for(int i = 0; i < amountOfIslands; i++) {
             Vector2 newPos = Random.insideUnitCircle;
 
-            Vector2Int newPosInt = new((int) (newPos.x * radious) + position.x, (int) (newPos.y * radious) + position.y);
+            Vector2Int newPosInt = new((int) (newPos.x * radius) + position.x, (int) (newPos.y * radius) + position.y);
 
-            Island newIsland = new(newPosInt, Random.Range(0,radious));
+            Island newIsland = new(newPosInt, Random.Range(0,radius));
             
             MakeIslandComponent(islandParent.transform, newIsland, newPosInt, i);
 
@@ -70,12 +70,12 @@ public class Continent
     }
 
     public void ChangeTerrain() {
-        for(int x = 0; x < radious*2; x++) {
-            for(int y = 0; y < radious*2; y++) {
+        for(int x = 0; x < radius*2; x++) {
+            for(int y = 0; y < radius*2; y++) {
 
-                Vector2Int currentTile = new((int) (x - radious + position.x) ,(int) (y - radious + position.y));
+                Vector2Int currentTile = new((int) (x - radius + position.x) ,(int) (y - radius + position.y));
 
-                if(Vector2.Distance(currentTile, position) < radious) {
+                if(Vector2.Distance(currentTile, position) < radius) {
                     float finalHeight = getHeight(currentTile) * 10f;
 
                     map.SetTile(new Vector3Int(currentTile.x, currentTile.y, 0), GetTileByHeight(finalHeight));
@@ -122,7 +122,7 @@ public class Continent
     }
 
     private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
-        float radius = island.getIslandRadious();
+        float radius = island.getIslandRadius();
         
         if (distance >= radius) return 0f;
 
@@ -134,7 +134,7 @@ public class Continent
 
     private float getDistanceFromCenterMultiplyer(Vector2Int currentTile) {
         float distanceFromCenterMultiplyer;
-        float distanceFromCenter = Vector2.Distance(currentTile,position) / radious;
+        float distanceFromCenter = Vector2.Distance(currentTile,position) / radius;
 
         if(distanceFromCenter < 0.8f) {
             distanceFromCenterMultiplyer = 1f;
@@ -143,10 +143,6 @@ public class Continent
         }
 
         return distanceFromCenterMultiplyer;
-    }
-
-    private void ChangeTile(Vector2Int pos, Tile tile) {
-        
     }
 
 
@@ -161,9 +157,8 @@ public class Continent
         return tileTypes[0].getTile();
     }
 
-
-    public float getContinentRadious() {
-        return radious;
+    public float getContinentRadius() {
+        return radius;
     }
 
     public Vector2Int getContinentPosition() {

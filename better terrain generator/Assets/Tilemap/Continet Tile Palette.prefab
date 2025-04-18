@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 337654644239747969}
   - component: {fileID: 8453321060099767565}
   m_Layer: 0
-  m_Name: Map
+  m_Name: Continet Tile Palette
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
