@@ -16,11 +16,11 @@ public class Continent
     private readonly TileType[] tileTypes;
     
 
-    public Continent(Tilemap map, Vector2Int pos, float radius, TileType[] tileTypes) {
+    public Continent(Tilemap map, Vector2Int position, float radius, TileType[] tileTypes) {
         this.map = map;
         this.radius = radius;
         this.tileTypes = tileTypes;
-        position = pos;
+        this.position = position;
 
         amountOfIslands = Random.Range((int) radius/10, (int) radius/10 + 5);
         islands = new Island[amountOfIslands];

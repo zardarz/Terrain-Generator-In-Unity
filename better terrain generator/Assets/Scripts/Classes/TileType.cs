@@ -16,4 +16,8 @@ public class TileType
     public float getHeight() {
         return height;
     }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
 }
