@@ -279,9 +279,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileTypes:
   - tile: {fileID: 11400000, guid: 00e4e451cde8142209f799c0e9610849, type: 2}
-    height: 0.15
+    height: 0
   - tile: {fileID: 11400000, guid: ba85e26a659fc4d4abc0933b25dff6e1, type: 2}
-    height: 0.47
+    height: 0.57
   - tile: {fileID: 11400000, guid: b7d36efc14dfd4d898b396029bd75221, type: 2}
     height: 0.546
   - tile: {fileID: 11400000, guid: 795ad471d704e4c0f848bcf8fd100859, type: 2}
@@ -321,14 +321,8 @@ MonoBehaviour:
     height: 0.9
   - tile: {fileID: 11400000, guid: c06ed5002eef24323a5613b1b9e1deb0, type: 2}
     height: 1
-  minIslands: 5
-  maxIslands: 10
-  islandCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  minIslands: 10
+  maxIslands: 15
 --- !u!483693784 &1164143241
 TilemapRenderer:
   m_ObjectHideFlags: 0

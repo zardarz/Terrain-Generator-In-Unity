@@ -16,14 +16,14 @@ public class Continent
     private readonly TileType[] tileTypes;
     
 
-    public Continent(Tilemap map, Vector2Int pos, int minIslands, int maxIslands, float radious, TileType[] tileTypes) {
+    public Continent(Tilemap map, Vector2Int pos, float radious, TileType[] tileTypes) {
         this.map = map;
         this.radious = radious;
         this.tileTypes = tileTypes;
         position = pos;
 
-        islands = new Island[Random.Range(minIslands, maxIslands + 1)];
-        amountOfIslands = islands.Length;
+        amountOfIslands = Random.Range((int) radious/10, (int) radious/10 + 5);
+        islands = new Island[amountOfIslands];
         islandComponents = new IslandComponent[amountOfIslands];
         GenerateIslands();
     }
@@ -143,6 +143,10 @@ public class Continent
         }
 
         return distanceFromCenterMultiplyer;
+    }
+
+    private void ChangeTile(Vector2Int pos, Tile tile) {
+        
     }
 
 
