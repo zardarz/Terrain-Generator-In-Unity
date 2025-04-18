@@ -17,7 +17,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         map = gameObject.GetComponent<Tilemap>();
 
-        continent = new Continent(map, new Vector2Int(0,0), minIslands, maxIslands, 1000, tileTypes);
+        continent = new Continent(map, new Vector2Int(100,100), minIslands, maxIslands, 100, tileTypes);
         continent.ChangeTerrain();
     }
 }

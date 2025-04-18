@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Random = UnityEngine.Random;
+using System.Numerics;
+using System;
 
 public class Continent
 {
@@ -34,7 +36,7 @@ public class Continent
         for(int i = 0; i < amountOfIslands; i++) {
             Vector2 newPos = Random.insideUnitCircle;
 
-            Vector2Int newPosInt = new((int) (newPos.x * radious), (int) (newPos.y * radious));
+            Vector2Int newPosInt = new((int) (newPos.x * radious) + position.x, (int) (newPos.y * radious) + position.y);
 
             Island newIsland = new(newPosInt, Random.Range(0,radious));
             
@@ -73,12 +75,12 @@ public class Continent
         for(int x = 0; x < radious*2; x++) {
             for(int y = 0; y < radious*2; y++) {
 
-                Vector2Int currentTile = new((int) (x - radious) ,(int) (y - radious));
+                Vector2Int currentTile = new((int) (x - radious + position.x) ,(int) (y - radious + position.y));
 
                 if(Vector2.Distance(currentTile, position) < radious) {
                     float finalHeight = getHeight(currentTile) * 10f;
 
-                    map.SetTile(new Vector3Int(currentTile.x + position.x, currentTile.y + position.y, 0), GetTileByHeight(finalHeight));
+                    map.SetTile(new Vector3Int(currentTile.x, currentTile.y, 0), GetTileByHeight(finalHeight));
                 }
             }
         }
@@ -100,14 +102,7 @@ public class Continent
             }
         }
 
-        float distanceFromCenterMultiplyer;
-        float distanceFromCenter = Vector2.Distance(currentTile,new(0,0)) / radious;
-
-        if(distanceFromCenter < 0.8f) {
-            distanceFromCenterMultiplyer = 1f;
-        } else {
-            distanceFromCenterMultiplyer = 25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
-        }
+        float distanceFromCenterMultiplyer = getDistanceFromCenterMultiplyer(currentTile);
 
         return sum / amountOfIslands * (Random.Range(90,100) / 100f) * distanceFromCenterMultiplyer;
     }
@@ -136,11 +131,20 @@ public class Continent
         float weight = 1f - (distance / radius);
         float weightedWaveValue = waveValue * weight;
 
-        if(distance <= 10f) {
-            Debug.Log(distance + " : " + weightedWaveValue + " : " + weight + " : " + waveValue);
+        return weightedWaveValue;
+    }
+
+    private float getDistanceFromCenterMultiplyer(Vector2Int currentTile) {
+        float distanceFromCenterMultiplyer;
+        float distanceFromCenter = Vector2.Distance(currentTile,position) / radious;
+
+        if(distanceFromCenter < 0.8f) {
+            distanceFromCenterMultiplyer = 1f;
+        } else {
+            distanceFromCenterMultiplyer = -25 * Mathf.Pow(distanceFromCenter - .8f , 2) + 1;
         }
 
-        return weightedWaveValue;
+        return distanceFromCenterMultiplyer;
     }
 
 
