@@ -11,13 +11,14 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private int minIslands;
     [SerializeField] private int maxIslands;
 
-    private Continent continent;
-
     void Awake()
     {
         map = gameObject.GetComponent<Tilemap>();
 
-        continent = new Continent(map, new Vector2Int(100,100), minIslands, maxIslands, 100, tileTypes);
+        Continent continent = new Continent(map, new Vector2Int(50,0), minIslands, maxIslands, 100, tileTypes);
         continent.ChangeTerrain();
+
+        Continent continent1 = new(map, new(-50,0), minIslands, maxIslands, 100, tileTypes);
+        continent1.ChangeTerrain();
     }
 }

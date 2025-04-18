@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Random = UnityEngine.Random;
-using System.Numerics;
-using System;
 
 public class Continent
 {
