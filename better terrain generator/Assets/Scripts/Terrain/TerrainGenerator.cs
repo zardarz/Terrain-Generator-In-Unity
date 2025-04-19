@@ -22,18 +22,26 @@ public class TerrainGenerator : MonoBehaviour
 
     private TileType[] sort(TileType[] tileTypes) {
         TileType[] sortedArray = new TileType[tileTypes.Length];
+        bool[] used = new bool[tileTypes.Length];
 
-        TileType lowestTileType = tileTypes[0];
+        for (int i = 0; i < tileTypes.Length; i++) {
+            int minIndex = -1;
+            float minHeight = float.PositiveInfinity;
 
-        while(sortedArray[tileTypes.Length-1] == null) {
-            for(int i = 0; i < tileTypes.Length; i++) {
-                if(tileTypes[i].getHeight() < lowestTileType.getHeight()) {
-                    lowestTileType = tileTypes[i];
-                    tileTypes[i].setHeight(float.PositiveInfinity);
+            for (int j = 0; j < tileTypes.Length; j++) {
+                if (!used[j] && tileTypes[j].getHeight() < minHeight) {
+                    minHeight = tileTypes[j].getHeight();
+                    minIndex = j;
                 }
+            }
+
+            if (minIndex != -1) {
+                sortedArray[i] = tileTypes[minIndex];
+                used[minIndex] = true;
             }
         }
 
         return sortedArray;
     }
+
 }
