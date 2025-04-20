@@ -45,7 +45,7 @@ public class OceanGenerator : MonoBehaviour
 
         for(int x = 0; x < roundNum(sideSize, chunkSize); x++) {
             for(int y = 0; y < roundNum(sideSize, chunkSize); y++) {
-                Vector2Int newPos = new(startPos.x + x*chunckSize, startPos.y + y*chunckSize);
+                Vector2Int newPos = new(startPos.x + x, startPos.y + y);
                 chunks.Add(newPos);
             }
         }
