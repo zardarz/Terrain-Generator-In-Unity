@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 1936572952}
   - component: {fileID: 1936572954}
   - component: {fileID: 1936572953}
+  - component: {fileID: 1936572955}
   m_Layer: 0
   m_Name: Ocean Tilemap
   m_TagString: Untagged
@@ -634,6 +635,21 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1936572955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936572951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b491022884b10419f9da977b1a147e3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraGO: {fileID: 519420028}
+  oceanTile: {fileID: 11400000, guid: faf2cd29d4c974dda83532410ca320b6, type: 2}
+  chunckSize: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
