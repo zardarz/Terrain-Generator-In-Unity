@@ -17,8 +17,6 @@ public class OceanGenerator : MonoBehaviour
 
     [SerializeField] private int chunckSize;
 
-    private Dictionary<Vector2Int, bool> chunks;
-
     void Update()
     {
         map = gameObject.GetComponent<Tilemap>();
@@ -29,8 +27,6 @@ public class OceanGenerator : MonoBehaviour
 
     private void makeNewChunks() {
         Vector2Int unmadeChunks = getUnmadeChunks();
-
-        Debug.Log(unmadeChunks);
 
         map.SetTile((Vector3Int) unmadeChunks, oceanTile);
     }
@@ -44,7 +40,7 @@ public class OceanGenerator : MonoBehaviour
 
     private Vector2Int getChunksInSquare(Vector2 pos, int squareSize) {
         Vector2Int roundedPos = new((int) Math.Round(pos.x/squareSize),(int) Math.Round(pos.y/squareSize));
-        Vector2Int chunk = roundedPos;
+        Vector2Int[] chunks = roundedPos;
 
         return roundedPos;
     }
