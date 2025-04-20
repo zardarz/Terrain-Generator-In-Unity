@@ -13,11 +13,11 @@ public class TerrainGenerator : MonoBehaviour
         map = gameObject.GetComponent<Tilemap>();
         tileTypes = sort(tileTypes);
 
-        Continent continent = new Continent(map, new Vector2Int(50,0), 100, tileTypes);
+        Continent continent = new Continent(map, new Vector2Int(0,0), 100, tileTypes);
         continent.ChangeTerrain();
 
         Continent continent1 = new(map, new(-50,0), 100, tileTypes);
-        continent1.ChangeTerrain();
+        //continent1.ChangeTerrain();
     }
 
     private TileType[] sort(TileType[] tileTypes) {

@@ -17,6 +17,7 @@ public class OceanGenerator : MonoBehaviour
 
     [SerializeField] private int chunckSize;
 
+    [Range(0,5)]
     [SerializeField] private int renderScale;
 
     void Update()
@@ -41,10 +42,10 @@ public class OceanGenerator : MonoBehaviour
 
         float sideSize = cameraSize * renderScale;
 
-        Vector2Int startPos = new(roundedPos.x - roundNum(sideSize/2, chunkSize), roundedPos.y - roundNum(sideSize/2, chunkSize));
+        Vector2Int startPos = new(roundedPos.x - roundNum(sideSize/2, chunkSize)-2, roundedPos.y - roundNum(sideSize/2, chunkSize)-2);
 
-        for(int x = 0; x < roundNum(sideSize, chunkSize); x++) {
-            for(int y = 0; y < roundNum(sideSize, chunkSize); y++) {
+        for(int x = 0; x < roundNum(sideSize, chunkSize)+2; x++) {
+            for(int y = 0; y < roundNum(sideSize, chunkSize)+2; y++) {
                 Vector2Int newPos = new(startPos.x + x, startPos.y + y);
                 chunks.Add(newPos);
             }

@@ -229,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomSpeed: 7
   minZoom: 2
-  maxZoom: Infinity
+  maxZoom: 300
   panSpeed: 1
 --- !u!1 &1164143238
 GameObject:
@@ -564,7 +564,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -650,6 +650,7 @@ MonoBehaviour:
   cameraGO: {fileID: 519420028}
   oceanTile: {fileID: 11400000, guid: faf2cd29d4c974dda83532410ca320b6, type: 2}
   chunckSize: 100
+  renderScale: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
