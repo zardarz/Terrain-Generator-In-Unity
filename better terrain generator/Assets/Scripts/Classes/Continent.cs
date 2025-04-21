@@ -1,32 +1,33 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using Vector2 = UnityEngine.Vector2;
 using Random = UnityEngine.Random;
+using System;
+using UnityEngine.Tilemaps;
 
 public class Continent
 {
-    private Tilemap map;
     private Vector2Int position;
     private Island[] islands;
     private IslandComponent[] islandComponents;
+    private TileType[] tileTypes;
     private readonly int amountOfIslands;
-
     private readonly float radius;
 
-    private readonly TileType[] tileTypes;
-    
+    private System.Random rng;
 
-    public Continent(Tilemap map, Vector2Int position, float radius, TileType[] tileTypes) {
-        this.map = map;
+    public Continent(Vector2Int position, float radius, TileType[] tileTypes, int seed = -1) {
         this.radius = radius;
-        this.tileTypes = tileTypes;
         this.position = position;
+        this.tileTypes = tileTypes;
 
-        amountOfIslands = Random.Range((int) radius/10, (int) radius/10 + 5);
+        rng = seed == -1 ? new System.Random() : new System.Random(seed);
+
+        amountOfIslands = rng.Next((int)radius / 10, (int)radius / 10 + 5);
         islands = new Island[amountOfIslands];
         islandComponents = new IslandComponent[amountOfIslands];
         GenerateIslands();
     }
+
 
     private void GenerateIslands() {
         GameObject islandParent = new("Islands");
@@ -36,7 +37,7 @@ public class Continent
 
             Vector2Int newPosInt = new((int) (newPos.x * radius) + position.x, (int) (newPos.y * radius) + position.y);
 
-            Island newIsland = new(newPosInt, Random.Range(0,radius));
+            Island newIsland = new(newPosInt, randomNum(0,radius));
             
             MakeIslandComponent(islandParent.transform, newIsland, newPosInt, i);
 
@@ -62,6 +63,7 @@ public class Continent
 
     private GameObject MakeContinentComponent(Continent continent) {
         GameObject continentGO = new("Continent: " + position.ToString());
+        continentGO.transform.position = new(continent.position.x, continent.position.y, 0);
         ContinentComponent continentComponent = continentGO.AddComponent<ContinentComponent>();
 
         continentComponent.setContinent(continent);
@@ -69,8 +71,13 @@ public class Continent
         return continentGO;
     }
 
-    public void ChangeTerrain() {
+    public Tile[][] GetTerrainData() {
+
+        Tile[][] heights = new Tile[(int) Math.Round(radius*2)][];
+
         for(int x = 0; x < radius*2; x++) {
+            heights[x] = new Tile[(int) Math.Round(radius*2)];
+
             for(int y = 0; y < radius*2; y++) {
 
                 Vector2Int currentTile = new((int) (x - radius + position.x) ,(int) (y - radius + position.y));
@@ -78,10 +85,12 @@ public class Continent
                 if(Vector2.Distance(currentTile, position) < radius) {
                     float finalHeight = getHeight(currentTile) * 10f;
 
-                    map.SetTile(new Vector3Int(currentTile.x, currentTile.y, 0), GetTileByHeight(finalHeight));
+                    heights[x][y] = GetTileByHeight(finalHeight);
                 }
             }
         }
+
+        return heights;
     }
 
     private float getHeight(Vector2Int currentTile) {
@@ -102,7 +111,7 @@ public class Continent
 
         float distanceFromCenterMultiplyer = getDistanceFromCenterMultiplyer(currentTile);
 
-        return sum / amountOfIslands * (Random.Range(90,100) / 100f) * distanceFromCenterMultiplyer;
+        return sum / amountOfIslands * (randomNum(90,100) / 100f) * distanceFromCenterMultiplyer;
     }
     
     private float GetDistance(Vector2Int currentTile, Island island) {
@@ -122,11 +131,11 @@ public class Continent
     }
 
     private float GetWeightedWaveValue(float waveValue, float distance, Island island) {
-        float radius = island.getIslandRadius();
+        float islandRadius = island.getIslandRadius();
         
-        if (distance >= radius) return 0f;
+        if (distance >= islandRadius) return 0f;
 
-        float weight = 1f - (distance / radius);
+        float weight = 1f - (distance / islandRadius);
         float weightedWaveValue = waveValue * weight;
 
         return weightedWaveValue;
@@ -145,7 +154,6 @@ public class Continent
         return distanceFromCenterMultiplyer;
     }
 
-
     private Tile GetTileByHeight(float height) {
 
         for(int i = tileTypes.Length - 1; i >= 0; i--) {
@@ -155,6 +163,10 @@ public class Continent
         }
 
         return tileTypes[0].getTile();
+    }
+
+    private float randomNum(float min, float max) {
+        return (float) rng.NextDouble() * (max-min) + min;
     }
 
     public float getContinentRadius() {

@@ -17,12 +17,12 @@ public class Island
     }
 
     private void makeWave() {
-        int amountOfKeys = Random.Range(1, 5);
+        int amountOfKeys = Random.Range(1, 10);
         float keyJump = 1f / amountOfKeys;
 
         for (int i = 0; i < amountOfKeys + 1; i++) {
             float keyTime = i * keyJump;
-            float keyHeight = Random.Range(0, 100) / 100f;
+            float keyHeight = Random.Range(20, 100) / 100f;
 
             islandCurve.AddKey(keyTime, keyHeight);
         }

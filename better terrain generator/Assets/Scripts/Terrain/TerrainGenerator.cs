@@ -1,5 +1,9 @@
+using System;
+using System.Threading;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class TerrainGenerator : MonoBehaviour
 {
@@ -8,17 +12,56 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private TileType[] tileTypes;
     [SerializeField] private TileType[] debugTiles;
 
+    [SerializeField] private GameObject cameraGO;
+
+    private Vector2 cameraPos;
+
+    [SerializeField] private int continentChunkSize;
+
+    private List<Vector2Int> continentChunks = new List<Vector2Int>();
+
     void Awake()
     {
         map = gameObject.GetComponent<Tilemap>();
         tileTypes = sort(tileTypes);
-
-        Continent continent = new Continent(map, new Vector2Int(0,0), 100, tileTypes);
-        continent.ChangeTerrain();
-
-        Continent continent1 = new(map, new(-50,0), 100, tileTypes);
-        //continent1.ChangeTerrain();
     }
+
+    void Update()
+    {
+        cameraPos = (Vector2) cameraGO.transform.position;
+        makeContinents();
+    }
+
+    private void makeContinents() {
+        Vector2Int roundedPos = new(roundNum(cameraPos.x,continentChunkSize), roundNum(cameraPos.y,continentChunkSize));
+
+        if(continentChunks.Contains(roundedPos) == false) {
+            makeContinent(roundedPos);
+            continentChunks.Add(roundedPos);
+        }
+    }
+
+    private void makeContinent(Vector2Int roundedPos) {
+        float radius = Random.Range(20, 400);
+        int xPos = Random.Range(roundedPos.x * continentChunkSize, (roundedPos.x + 1) * continentChunkSize);
+        int yPos = Random.Range(roundedPos.y * continentChunkSize, (roundedPos.y + 1) * continentChunkSize);
+
+        Continent newContinent = new(new(xPos, yPos), radius, tileTypes);
+
+        Thread thread = new(() => {
+            Tile[][] terrain = newContinent.GetTerrainData();
+
+            // ✅ Schedule both logging and tilemap updates on the main thread
+            MainThreadDispatcher.Enqueue(() => {
+
+                // ✅ Now safe to update the Tilemap here
+                changeTerrain(terrain, new(xPos - (int)radius, yPos - (int)radius));
+            });
+        });
+
+        thread.Start();
+    }
+
 
     private TileType[] sort(TileType[] tileTypes) {
         TileType[] sortedArray = new TileType[tileTypes.Length];
@@ -44,4 +87,16 @@ public class TerrainGenerator : MonoBehaviour
         return sortedArray;
     }
 
+
+    private int roundNum(float numToRound, float numToRoundTo) {
+        return (int) Math.Round(numToRound/numToRoundTo);
+    }
+
+    private void changeTerrain(Tile[][] tiles, Vector2Int pos) {
+        for(int x = 0; x < tiles.Length; x++) {
+            for(int y = 0; y < tiles[0].Length; y++) {
+                map.SetTile(new(pos.x + x, pos.y + y, 0), tiles[x][y]);
+            }
+        }
+    }
 }

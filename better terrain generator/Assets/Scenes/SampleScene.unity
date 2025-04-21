@@ -229,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomSpeed: 7
   minZoom: 2
-  maxZoom: 300
+  maxZoom: 500
   panSpeed: 1
 --- !u!1 &1164143238
 GameObject:
@@ -279,11 +279,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileTypes:
   - tile: {fileID: 11400000, guid: 00e4e451cde8142209f799c0e9610849, type: 2}
-    height: 0
+    height: 0.45
   - tile: {fileID: 11400000, guid: ba85e26a659fc4d4abc0933b25dff6e1, type: 2}
-    height: 0.57
+    height: 0.46
   - tile: {fileID: 11400000, guid: b7d36efc14dfd4d898b396029bd75221, type: 2}
-    height: 0.546
+    height: 0.5
   - tile: {fileID: 11400000, guid: 795ad471d704e4c0f848bcf8fd100859, type: 2}
     height: 0.55
   - tile: {fileID: 11400000, guid: 4265df6f8e06046d38e612b57ecd9ddd, type: 2}
@@ -321,6 +321,8 @@ MonoBehaviour:
     height: 0.9
   - tile: {fileID: 11400000, guid: c06ed5002eef24323a5613b1b9e1deb0, type: 2}
     height: 1
+  cameraGO: {fileID: 519420028}
+  continentChunkSize: 1000
 --- !u!483693784 &1164143241
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -519,7 +521,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 1}
+  m_LocalScale: {x: 1000, y: 1000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1410106976}
@@ -649,8 +651,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraGO: {fileID: 519420028}
   oceanTile: {fileID: 11400000, guid: faf2cd29d4c974dda83532410ca320b6, type: 2}
-  chunckSize: 100
-  renderScale: 3
+  chunkSize: 1000
+  renderScale: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -15,9 +15,9 @@ public class OceanGenerator : MonoBehaviour
 
     [SerializeField] private Tile oceanTile;
 
-    [SerializeField] private int chunckSize;
+    [SerializeField] private int chunkSize;
 
-    [Range(0,5)]
+    [Range(0,7)]
     [SerializeField] private int renderScale;
 
     void Update()
@@ -29,7 +29,7 @@ public class OceanGenerator : MonoBehaviour
     }
 
     private void makeNewChunks() {
-        Vector2Int[] chunks = getChunksInSquare(cameraPos, chunckSize, cameraSize);
+        Vector2Int[] chunks = getChunksInSquare(cameraPos, chunkSize, cameraSize);
 
         for(int i = 0; i < chunks.Length; i++) {
             map.SetTile((Vector3Int)chunks[i], oceanTile);
