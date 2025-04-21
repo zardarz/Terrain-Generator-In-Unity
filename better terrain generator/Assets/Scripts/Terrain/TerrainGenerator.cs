@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+using System.Collections;
 
 public class TerrainGenerator : MonoBehaviour
 {
@@ -36,7 +37,12 @@ public class TerrainGenerator : MonoBehaviour
         Vector2Int roundedPos = new(roundNum(cameraPos.x,continentChunkSize), roundNum(cameraPos.y,continentChunkSize));
 
         if(continentChunks.Contains(roundedPos) == false) {
-            makeContinent(roundedPos);
+            int amountOfConinents = Random.Range(5,10);
+
+            for(int i = 0; i<amountOfConinents;i++) {
+                makeContinent(roundedPos);
+            }
+            
             continentChunks.Add(roundedPos);
         }
     }
@@ -92,11 +98,13 @@ public class TerrainGenerator : MonoBehaviour
         return (int) Math.Round(numToRound/numToRoundTo);
     }
 
-    private void changeTerrain(Tile[][] tiles, Vector2Int pos) {
+    IEnumerator changeTerrain(Tile[][] tiles, Vector2Int pos) {
         for(int x = 0; x < tiles.Length; x++) {
             for(int y = 0; y < tiles[0].Length; y++) {
                 map.SetTile(new(pos.x + x, pos.y + y, 0), tiles[x][y]);
             }
+
+            if (x % 10 == 0) yield return null;
         }
     }
 }

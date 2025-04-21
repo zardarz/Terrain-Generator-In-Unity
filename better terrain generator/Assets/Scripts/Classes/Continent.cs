@@ -73,10 +73,10 @@ public class Continent
 
     public Tile[][] GetTerrainData() {
 
-        Tile[][] heights = new Tile[(int) Math.Round(radius*2)][];
+        Tile[][] tiles = new Tile[(int) Math.Round(radius*2)][];
 
         for(int x = 0; x < radius*2; x++) {
-            heights[x] = new Tile[(int) Math.Round(radius*2)];
+            tiles[x] = new Tile[(int) Math.Round(radius*2)];
 
             for(int y = 0; y < radius*2; y++) {
 
@@ -85,12 +85,14 @@ public class Continent
                 if(Vector2.Distance(currentTile, position) < radius) {
                     float finalHeight = getHeight(currentTile) * 10f;
 
-                    heights[x][y] = GetTileByHeight(finalHeight);
+                    tiles[x][y] = GetTileByHeight(finalHeight);
+                } else {
+                    tiles[x][y] = tileTypes[0].getTile();
                 }
             }
         }
 
-        return heights;
+        return tiles;
     }
 
     private float getHeight(Vector2Int currentTile) {
