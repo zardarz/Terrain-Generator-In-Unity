@@ -36,7 +36,12 @@ public class TerrainGenerator : MonoBehaviour
         Vector2Int roundedPos = new(roundNum(cameraPos.x,continentChunkSize), roundNum(cameraPos.y,continentChunkSize));
 
         if(continentChunks.Contains(roundedPos) == false) {
-            makeContinent(roundedPos);
+            int amountOfConinents = Random.Range(1,2);
+
+            for(int i = 0; i < amountOfConinents; i++) {
+                makeContinent(roundedPos);
+            }
+
             continentChunks.Add(roundedPos);
         }
     }
