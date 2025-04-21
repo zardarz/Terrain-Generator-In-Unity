@@ -97,11 +97,19 @@ public class TerrainGenerator : MonoBehaviour
         return (int) Math.Round(numToRound/numToRoundTo);
     }
 
-    private void changeTerrain(Tile[][] tiles, Vector2Int pos) {
-        for(int x = 0; x < tiles.Length; x++) {
-            for(int y = 0; y < tiles[0].Length; y++) {
-                map.SetTile(new(pos.x + x, pos.y + y, 0), tiles[x][y]);
+    private void changeTerrain(Tile[][] tileData, Vector2Int pos) {
+        Vector3Int[] positions = new Vector3Int[tileData.Length * tileData[0].Length];
+        Tile[] tiles = new Tile[tileData.Length * tileData[0].Length];
+
+        int i = 0;
+        for(int x = 0; x < tileData.Length; x++) {
+            for(int y = 0; y < tileData[0].Length; y++) {
+                positions[i] = new(x + pos.x, y+pos.y, 0);
+                tiles[i] = tileData[x][y];
+                i++;
             }
         }
+
+        map.SetTiles(positions, tiles);
     }
 }
