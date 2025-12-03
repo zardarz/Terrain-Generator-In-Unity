@@ -72,19 +72,17 @@ public class Continent
     }
 
     public Tile[][] GetTerrainData() {
+        int diameter = (int)Math.Round(radius * 2);
+        Tile[][] tiles = new Tile[diameter][];
 
-        Tile[][] tiles = new Tile[(int) Math.Round(radius*2)][];
+        for(int x = 0; x < diameter; x++) {
+            tiles[x] = new Tile[diameter];
 
-        for(int x = 0; x < radius*2; x++) {
-            tiles[x] = new Tile[(int) Math.Round(radius*2)];
-
-            for(int y = 0; y < radius*2; y++) {
-
-                Vector2Int currentTile = new((int) (x - radius + position.x) ,(int) (y - radius + position.y));
+            for(int y = 0; y < diameter; y++) {
+                Vector2Int currentTile = new((int)(x - radius + position.x), (int)(y - radius + position.y));
 
                 if(Vector2.Distance(currentTile, position) < radius) {
                     float finalHeight = getHeight(currentTile) * 10f;
-
                     tiles[x][y] = GetTileByHeight(finalHeight);
                 } else {
                     tiles[x][y] = tileTypes[0].getTile();
@@ -112,6 +110,15 @@ public class Continent
         }
 
         float distanceFromCenterMultiplyer = getDistanceFromCenterMultiplyer(currentTile);
+        float finalHeight = sum / amountOfIslands * (randomNum(90,100) / 100f) * distanceFromCenterMultiplyer;
+
+        // Add threshold to create water gaps between islands
+        float threshold = 0.3f; // Adjust this (0.2-0.5 works well)
+        if(finalHeight < threshold) {
+            finalHeight = 0f; // Force to water
+        }
+
+        
 
         return sum / amountOfIslands * (randomNum(90,100) / 100f) * distanceFromCenterMultiplyer;
     }

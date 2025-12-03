@@ -34,38 +34,56 @@ public class TerrainGenerator : MonoBehaviour
     }
 
     private void makeContinents() {
-        Vector2Int roundedPos = new(roundNum(cameraPos.x,continentChunkSize), roundNum(cameraPos.y,continentChunkSize));
-
-        if(continentChunks.Contains(roundedPos) == false) {
-            int amountOfConinents = Random.Range(5,10);
-
-            for(int i = 0; i<amountOfConinents;i++) {
-                makeContinent(roundedPos);
+        Vector2Int cameraChunk = new(roundNum(cameraPos.x, continentChunkSize), roundNum(cameraPos.y, continentChunkSize));
+        
+        // Generate chunks in a radius around the camera
+        int chunkRadius = 2; // Adjust this to control how far ahead to generate (2 = 5x5 grid of chunks)
+        
+        for(int x = -chunkRadius; x <= chunkRadius; x++) {
+            for(int y = -chunkRadius; y <= chunkRadius; y++) {
+                Vector2Int chunkPos = new(cameraChunk.x + x, cameraChunk.y + y);
+                
+                if(continentChunks.Contains(chunkPos) == false) {
+                    Debug.Log($"Generating continent at chunk {chunkPos}");
+                    makeContinent(chunkPos);
+                    continentChunks.Add(chunkPos);
+                }
             }
-            
-            continentChunks.Add(roundedPos);
         }
     }
 
     private void makeContinent(Vector2Int roundedPos) {
-        float radius = Random.Range(20, 400);
-        int xPos = Random.Range(roundedPos.x * continentChunkSize, (roundedPos.x + 1) * continentChunkSize);
-        int yPos = Random.Range(roundedPos.y * continentChunkSize, (roundedPos.y + 1) * continentChunkSize);
+        // Use chunk position to create a consistent seed for this chunk
+        int seed = roundedPos.x * 73856093 ^ roundedPos.y * 19349663;
+        System.Random chunkRng = new System.Random(seed);
+        
+        // Add random offset within the chunk (but not too close to edges to avoid overlap)
+        float offsetRange = continentChunkSize * 0.3f;
+        float xOffset = (float)(chunkRng.NextDouble() * 2 - 1) * offsetRange;
+        float yOffset = (float)(chunkRng.NextDouble() * 2 - 1) * offsetRange;
+        
+        int xPos = roundedPos.x * continentChunkSize + (continentChunkSize / 2) + (int)xOffset;
+        int yPos = roundedPos.y * continentChunkSize + (continentChunkSize / 2) + (int)yOffset;
+        
+        float radius = (float)(chunkRng.NextDouble() * (continentChunkSize / 2.5f - 20) + 20);
+        
+        Debug.Log($"Creating continent at ({xPos}, {yPos}) with radius {radius}");
 
-        Continent newContinent = new(new(xPos, yPos), radius, tileTypes);
+        // Start coroutine instead of thread
+        StartCoroutine(GenerateContinentAsync(xPos, yPos, radius, seed));
+    }
 
-        Thread thread = new(() => {
-            Tile[][] terrain = newContinent.GetTerrainData();
 
-            // ✅ Schedule both logging and tilemap updates on the main thread
-            MainThreadDispatcher.Enqueue(() => {
-
-                // ✅ Now safe to update the Tilemap here
-                changeTerrain(terrain, new(xPos - (int)radius, yPos - (int)radius));
-            });
-        });
-
-        thread.Start();
+    private IEnumerator GenerateContinentAsync(int xPos, int yPos, float radius, int seed) {
+        Continent newContinent = new(new(xPos, yPos), radius, tileTypes, seed);
+        
+        // This might take a frame or two depending on continent size
+        Tile[][] terrain = newContinent.GetTerrainData();
+        
+        yield return null; // Wait one frame before starting to place tiles
+        
+        // Now place the tiles (this is already spread across frames)
+        yield return StartCoroutine(changeTerrain(terrain, new(xPos - (int)radius, yPos - (int)radius)));
     }
 
 
@@ -95,16 +113,18 @@ public class TerrainGenerator : MonoBehaviour
 
 
     private int roundNum(float numToRound, float numToRoundTo) {
-        return (int) Math.Round(numToRound/numToRoundTo);
+        return Mathf.FloorToInt(numToRound / numToRoundTo);
     }
 
     IEnumerator changeTerrain(Tile[][] tiles, Vector2Int pos) {
         for(int x = 0; x < tiles.Length; x++) {
-            for(int y = 0; y < tiles[0].Length; y++) {
-                map.SetTile(new(pos.x + x, pos.y + y, 0), tiles[x][y]);
+            for(int y = 0; y < tiles[x].Length; y++) {
+                if(tiles[x][y] != null) {
+                    map.SetTile(new(pos.x + x, pos.y + y, 0), tiles[x][y]);
+                }
             }
-
-            if (x % 10 == 0) yield return null;
+            
+            if (x % 10 == 0) yield return null; // Spread across frames to avoid lag
         }
     }
 }
